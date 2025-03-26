@@ -20,3 +20,5 @@ First App
     - Navigation and Lazy Column in UTH Smart Task App
 - *Folder:* UTHTaskRESTfulAPI
     - RESTful API in UTH Smart Task APP
+- *Folder:* MyAppFirebase
+    - Google sign in with Firebase Authentication
