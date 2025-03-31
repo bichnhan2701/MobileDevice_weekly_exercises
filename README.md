@@ -23,3 +23,5 @@ First App
 ## Week 5
 - *Folder:* MyAppFirebase
     - Google sign in with Firebase Authentication
+- *Folder:* TodoAppUTHTask
+    - UTH Todo Task App with google sign in with Firebase Authentication
