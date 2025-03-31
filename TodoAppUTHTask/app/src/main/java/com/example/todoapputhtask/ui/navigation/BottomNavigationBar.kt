@@ -5,7 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomNavigationBar (
@@ -17,5 +17,5 @@ sealed class BottomNavigationBar (
     object Calender: BottomNavigationBar("calender", "Calender", Icons.Default.DateRange)
     object Add: BottomNavigationBar("add", "Add Task", Icons.Default.AddCircle)
     object List: BottomNavigationBar("list", "List", Icons.AutoMirrored.Filled.List)
-    object Setting: BottomNavigationBar("setting", "Setting", Icons.Default.Settings)
+    object User: BottomNavigationBar("user", "User", Icons.Default.Person)
 }

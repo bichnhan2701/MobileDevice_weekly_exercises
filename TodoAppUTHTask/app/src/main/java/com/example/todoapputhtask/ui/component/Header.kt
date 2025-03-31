@@ -52,14 +52,14 @@ fun Header(navController: NavController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Blue
+                    color = Color(0xFF3991D8)
                 )
             )
             Text(
                 text = "A simple and efficient to do app",
                 style = TextStyle(
                     fontSize = 14.sp,
-                    color = Color.Blue
+                    color = Color(0xFF3991D8)
                 )
             )
         }

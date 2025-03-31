@@ -259,7 +259,7 @@ fun HeadDetail(navController: NavController) {
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Blue
+                color = Color(0xFF3991D8)
             )
         )
         Icon(

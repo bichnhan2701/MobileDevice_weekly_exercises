@@ -14,30 +14,34 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.todoapputhtask.ui.navigation.BottomNavigationBar
 
 @Composable
-fun BottomNavComponent (navController: NavController) {
+fun BottomNavComponent(navController: NavController) {
     val items = listOf(
         BottomNavigationBar.Home,
         BottomNavigationBar.Calender,
         BottomNavigationBar.Add,
         BottomNavigationBar.List,
-        BottomNavigationBar.Setting
+        BottomNavigationBar.User
     )
 
-    NavigationBar (
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    if (currentRoute == "login") return // Ẩn NavBar nếu ở màn hình Login
+
+    NavigationBar(
         containerColor = Color.LightGray,
-        modifier = Modifier.height(70.dp)
+        modifier = Modifier.height(100.dp)
     ) {
-        val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         items.forEach { screen ->
             NavigationBarItem(
-                icon = { Icon( screen.icon, screen.title)},
-                label = { Text(screen.title)},
+                icon = { Icon(screen.icon, screen.title) },
+                label = { Text(screen.title) },
                 selected = currentRoute == screen.route,
                 onClick = {
-                    navController.navigate(screen.route) {
-//                        popUpTo(navController.graph.startDestinationId) { saveState = true}
-//                        launchSingleTop = true
-//                        restoreState = true
+                    if (currentRoute != screen.route) {
+                        navController.navigate(screen.route) {
+                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 }
             )
