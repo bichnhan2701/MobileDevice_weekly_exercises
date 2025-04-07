@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.todoapputhtask.ui.component.BottomNavComponent
-import com.example.todoapputhtask.ui.model.AuthViewModel
+import com.example.todoapputhtask.ui.viewmodel.AuthViewModel
 import com.example.todoapputhtask.ui.navigation.NavGraph
 
 class MainActivity : ComponentActivity() {
@@ -32,17 +32,17 @@ class MainActivity : ComponentActivity() {
             val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
             // ✅ Điều hướng ngay khi trạng thái đăng nhập thay đổi
-            LaunchedEffect(isLoggedIn) {
-                if (isLoggedIn) {
-                    navController.navigate("home") {
-                        popUpTo("login") { inclusive = true } // Xóa login khỏi backstack
-                    }
-                } else {
-                    navController.navigate("login") {
-                        popUpTo("home") { inclusive = true } // Xóa home khỏi backstack
-                    }
-                }
-            }
+//            LaunchedEffect(isLoggedIn) {
+//                if (isLoggedIn) {
+//                    navController.navigate("home") {
+//                        popUpTo("login") { inclusive = true } // Xóa login khỏi backstack
+//                    }
+//                } else {
+//                    navController.navigate("login") {
+//                        popUpTo("home") { inclusive = true } // Xóa home khỏi backstack
+//                    }
+//                }
+//            }
 
             Scaffold(
                 bottomBar = {

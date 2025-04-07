@@ -25,3 +25,6 @@ First App
     - Google sign in with Firebase Authentication
 - *Folder:* TodoAppUTHTask
     - UTH Todo Task App with google sign in with Firebase Authentication
+## Week 6 
+- *Folder:* TodoAppUTHTask
+    - UTH Todo Task App Add New Task with MVVM

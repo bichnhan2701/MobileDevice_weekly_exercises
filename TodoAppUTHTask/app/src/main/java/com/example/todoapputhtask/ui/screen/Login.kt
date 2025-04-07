@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.todoapputhtask.R
-import com.example.todoapputhtask.ui.model.AuthViewModel
+import com.example.todoapputhtask.ui.viewmodel.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -43,7 +43,7 @@ fun Login (navController: NavController, viewModel: AuthViewModel = viewModel())
     val isLoggedIn by viewModel.isLoggedIn.observeAsState(false)
 
     LaunchedEffect(isLoggedIn) {
-        if (isLoggedIn) {
+        if (isLoggedIn && navController.currentDestination?.route == "login") {
             navController.navigate("home") {
                 popUpTo("login") { inclusive = true } // Xóa màn hình Login khỏi stack
             }

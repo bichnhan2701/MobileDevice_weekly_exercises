@@ -1,4 +1,4 @@
-package com.example.todoapputhtask.ui.model
+package com.example.todoapputhtask.ui.viewmodel
 
 import android.app.Application
 import android.content.Intent
