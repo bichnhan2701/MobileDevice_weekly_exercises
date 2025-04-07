@@ -1,10 +1,6 @@
 package com.example.todoapputhtask.ui.screen
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -24,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -53,40 +48,50 @@ fun Home (navController: NavController){
             isLoading = false
         }
     }
-    if (isLoading) {
-        CircularProgressIndicator(
-            modifier = Modifier.fillMaxSize()
-        )
-    } else if ( taskList.isEmpty() ) {
-        EmptyView()
-    } else {
-        if (user != null) {
-            Text(
-                text = "Xin chào, ${user.displayName ?: "Người dùng"}!",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color(0xFF3991D8),
-                modifier = Modifier.padding(top = 70.dp) .padding(start = 20.dp)
-            )
-        }
 
-        LazyColumn (
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .padding(top = 80.dp)
-                .windowInsetsPadding(WindowInsets.navigationBars)
-        ) {
-            items(taskList) { task ->
-                TaskItem(task, onClick = {
-                    navController.navigate("detail/${task.id}")
-                })
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        } else if (taskList.isEmpty()) {
+            EmptyView()
+        } else {
+            Column {
+                if (user != null) {
+                    Text(
+                        text = "Xin chào, ${user.displayName ?: "Người dùng"}!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF3991D8),
+                        modifier = Modifier.padding(top = 70.dp, start = 20.dp)
+                    )
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                        //.weight(1f) // để FAB không bị đẩy
+                ) {
+                    items(taskList) { task ->
+                        TaskItem(task, onClick = {
+                            navController.navigate("detail/${task.id}")
+                        })
+                    }
+                }
             }
         }
 
-        FloatingActionButton(onClick = {
-            navController.navigate("add")
-        }) {
+        // FAB nằm ở góc dưới bên phải, trên navbar một chút
+        FloatingActionButton(
+            onClick = {
+                navController.navigate("add")
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 24.dp, bottom = 24.dp)
+        ) {
             Icon(Icons.Default.Add, contentDescription = "Thêm Task")
         }
     }
