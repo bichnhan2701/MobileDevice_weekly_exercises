@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -73,6 +74,13 @@ dependencies {
 
     implementation (libs.coil.compose)
     implementation(libs.androidx.runtime.livedata)
+
+    // Room Database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.symbol.processing.api)
+    ksp(libs.androidx.room.compiler)
+
 
 
     testImplementation(libs.junit)

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.todoapputhtask.R
-import com.example.todoapputhtask.ui.viewmodel.AuthViewModel
+import com.example.todoapputhtask.viewmodel.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import androidx.lifecycle.viewmodel.compose.viewModel
 

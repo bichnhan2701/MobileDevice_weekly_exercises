@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -31,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.todoapputhtask.R
-import com.example.todoapputhtask.ui.viewmodel.AddTaskViewModel
+import com.example.todoapputhtask.viewmodel.AddTaskViewModel
 
 @Composable
 fun Add (navController: NavController, viewModel: AddTaskViewModel, onSuccess: () -> Unit) {
@@ -40,7 +39,7 @@ fun Add (navController: NavController, viewModel: AddTaskViewModel, onSuccess: (
     val title by viewModel.title.collectAsState()
     val description by viewModel.description.collectAsState()
     val isAdded by viewModel.isAdded.collectAsState()
-    val error by viewModel.error.collectAsState()
+    //val error by viewModel.error.collectAsState()
 
     if (isAdded) {
         LaunchedEffect(Unit) {
@@ -84,7 +83,7 @@ fun Add (navController: NavController, viewModel: AddTaskViewModel, onSuccess: (
             )
             Spacer(modifier = Modifier.height(40.dp))
             Button(
-                onClick = { viewModel.addTask() },
+                onClick = { viewModel.addTaskToLocal() },
                 modifier = Modifier.align(Alignment.End)
             ) {
                 Text("Thêm Task")

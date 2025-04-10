@@ -24,15 +24,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,26 +40,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.todoapputhtask.R
-import com.example.todoapputhtask.data.model.Task
+import com.example.todoapputhtask.data.local.TaskDatabase
+import com.example.todoapputhtask.data.model.toTask
 import com.example.todoapputhtask.data.repository.TaskRepository
 import com.example.todoapputhtask.ui.theme.CardColors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
-fun Detail (taskId: Int, navController: NavController ){
-    HeadDetail(navController)
+fun Detail (taskId: Int, navController: NavController, repository: TaskRepository){
+    HeadDetail(navController = navController, taskId = taskId, repository = repository)
 
-    val coroutineScope = rememberCoroutineScope()
-    var task by remember { mutableStateOf<Task?>(null) }
+//    val context = LocalContext.current
+//    val db = TaskDatabase.getInstance(context)
+    val taskList by repository.getLocalTasks().collectAsState(initial = emptyList())
 
-    LaunchedEffect(taskId) {
-        coroutineScope.launch {
-            val tasks = TaskRepository.getTasks()
-            task = tasks.find { it.id == taskId }
-        }
-    }
+    val task = taskList.find { it.id == taskId }
 
-    task?.let {
+    task?.toTask()?.let {
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -237,7 +237,51 @@ fun Detail (taskId: Int, navController: NavController ){
 }
 
 @Composable
-fun HeadDetail(navController: NavController) {
+fun HeadDetail(navController: NavController, taskId: Int, repository: TaskRepository) {
+    val context = LocalContext.current
+    var showDialog by remember { mutableStateOf(false) }
+
+    // ✅ Dialog xác nhận xoá
+    if (showDialog) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                Text(
+                    "Xoá",
+                    color = Color.Red,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable {
+                            showDialog = false
+                            // Gọi coroutine để xoá
+                            CoroutineScope(Dispatchers.IO).launch {
+                                val db = TaskDatabase.getInstance(context)
+                                val task = db.taskDao().getTaskById(taskId)
+                                task?.let {
+                                    repository.deleteLocalTask(it)
+                                }
+                                withContext(Dispatchers.Main) {
+                                    navController.navigate("home") {
+                                        popUpTo("detail/$taskId") { inclusive = true }
+                                    }
+                                }
+                            }
+                        }
+                )
+            },
+            dismissButton = {
+                Text(
+                    "Huỷ",
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable { showDialog = false }
+                )
+            },
+            title = { Text("Xác nhận xoá") },
+            text = { Text("Bạn có chắc muốn xoá task này không?") }
+        )
+    }
+
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -262,8 +306,18 @@ fun HeadDetail(navController: NavController) {
                 color = Color(0xFF3991D8)
             )
         )
+//        Icon(
+//            modifier = Modifier.size(36.dp),
+//            imageVector = Icons.Default.Delete,
+//            contentDescription = "Delete Icon",
+//            tint = Color.Red
+//        )
         Icon(
-            modifier = Modifier.size(36.dp),
+            modifier = Modifier
+                .size(36.dp)
+                .clickable {
+                    showDialog = true
+                },
             imageVector = Icons.Default.Delete,
             contentDescription = "Delete Icon",
             tint = Color.Red

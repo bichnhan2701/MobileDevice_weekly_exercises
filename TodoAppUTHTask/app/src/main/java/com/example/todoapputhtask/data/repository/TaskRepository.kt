@@ -1,13 +1,16 @@
 package com.example.todoapputhtask.data.repository
 
+import com.example.todoapputhtask.data.local.LocalTaskEntity
+import com.example.todoapputhtask.data.local.TaskDao
 import com.example.todoapputhtask.data.model.Task
 import com.example.todoapputhtask.network.TaskApiService
-import retrofit2.Response
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object TaskRepository {
-    private val fakeTaskList = mutableListOf<Task>() // RAM storage
+class TaskRepository(
+    private val taskDao: TaskDao
+) {
 
     private val apiServices: TaskApiService by lazy {
         Retrofit.Builder()
@@ -17,28 +20,29 @@ object TaskRepository {
             .create(TaskApiService::class.java)
     }
 
-//    suspend fun getTasks(): List<Task> {
-//        val response = apiServices.getTasks()
-//        return response.data ?: emptyList()
-//    }
-//
-//    suspend fun postTask(task: Task): Response<Task> {
-//        return apiServices.createTask(task)
-//    }
-
-    suspend fun getTasks(): List<Task> {
-        // Kết hợp cả danh sách từ API và local RAM
+    // Lấy task từ API
+    suspend fun getTasksFromApi(): List<Task> {
         return try {
             val response = apiServices.getTasks()
-            response.data.orEmpty() + fakeTaskList
+            response.data ?: emptyList()
         } catch (e: Exception) {
-            fakeTaskList // fallback: chỉ lấy từ local nếu lỗi
+            emptyList()
         }
     }
 
-    suspend fun postTask(task: Task): Response<Task> {
-        // Giả lập task mới được thêm vào RAM
-        fakeTaskList.add(task.copy(id = (1000..9999).random())) // giả ID random
-        return Response.success(task)
+    // Task local (Room)
+    fun getLocalTasks(): Flow<List<LocalTaskEntity>> = taskDao.getAllTasks()
+
+    suspend fun insertLocalTask(task: LocalTaskEntity) {
+        taskDao.insert(task)
     }
+
+    suspend fun deleteLocalTask(task: LocalTaskEntity) {
+        taskDao.delete(task)
+    }
+
+    // Nếu sau này muốn gọi API tạo task, giữ lại
+//    suspend fun postTask(task: Task): Response<Task> {
+//        return apiServices.createTask(task)
+//    }
 }

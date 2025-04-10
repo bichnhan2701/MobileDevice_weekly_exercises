@@ -28,3 +28,6 @@ First App
 ## Week 6 
 - *Folder:* TodoAppUTHTask
     - UTH Todo Task App Add New Task with MVVM
+## Week 7 
+- *Folder:* TodoAppUTHTask
+    - UTH Todo Task App Add New Task and Delete Task with Room Database
