@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "68136360618",
+    "project_id": "todoapp-8b050",
+    "storage_bucket": "todoapp-8b050.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68136360618:android:2247a4673cae91d873ced3",
+        "android_client_info": {
+          "package_name": "com.example.appwithroomdatabase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfyFqDjHRofwYtISGylupbfS3ks8urGTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
