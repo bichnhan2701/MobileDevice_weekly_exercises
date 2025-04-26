@@ -33,3 +33,7 @@ First App
     - UTH Todo Task App Add New Task and Delete Task with Room Database
 - *Folder:* Theme
     - Theme App change color background with DataStore 
+## Week 7 
+- *Folder:* AppWithRoomDatabase
+    - Bai giua ky
+    - Simple App with Room Database 
